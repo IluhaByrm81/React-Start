@@ -1,5 +1,6 @@
 import React from "react";
-import "./Moto.css";
+import Radium from 'radium'
+import "./Moto.scss";
 
 //  КОМПОНЕНТ MOTO
 
@@ -10,8 +11,18 @@ const moto = (props) => {
   else inputClass.push("red");
   if (props.name.length > 6) inputClass.push("bold");
 
+  const styleMoto = {
+   border: '1px solid black',
+   boxShadow : '0 10px 5px 0 rgba(0, 0, 0, .15)',
+   ':hover': {
+      border: '2px solid orange',
+      boxShadow: '0 20px 5px 0 rgba(0, 0, 0, .25)',
+      cursor: 'pointer',
+   }
+  }
+
   return (
-    <div className="Moto">
+    <div className="Moto" style={styleMoto}>
       <h3>Moto name : {props.name} </h3>
       <p>
         Model : <strong> {props.model} </strong>
@@ -32,4 +43,4 @@ const moto = (props) => {
   );
 };
 
-export default moto;
+export default Radium(moto);
