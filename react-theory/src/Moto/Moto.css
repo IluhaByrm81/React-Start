@@ -1,0 +1,42 @@
+
+.Moto {
+   border: 1px solid black;
+   margin-bottom: 10px;
+   display: block;
+   padding: 10px;
+   box-shadow : 0 10px 5px 0 rgba(0, 0, 0, .15);
+   border-radius: 20px;
+}
+
+.Button {
+   width: 400px;
+   margin: auto;
+   padding-top: 20px;
+}
+
+.Container {
+   text-align: center;
+   border: 3px solid red;
+}
+
+.H1 {
+   color: rgb(53, 13, 13);
+   font-size: 20px;
+ }
+
+ .input {
+
+ }
+ .input:active, .input:focus {
+    outline: none;
+ }
+.input.green {
+   border: 1.5px solid green;
+}
+.input.red {
+   border: 1.5px solid red;
+}
+.input.bold {
+   border: 3px solid green;
+   font-weight: bold;
+}

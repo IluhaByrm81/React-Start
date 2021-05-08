@@ -1,21 +1,35 @@
 import React from "react";
+import "./Moto.css";
+
+//  КОМПОНЕНТ MOTO
 
 const moto = (props) => {
-   return (
-      <div style={{ border: "1px solid black", marginBottom: '10px', display: 'block', padding: '10px' }}>
+  const inputClass = ["input"];
+
+  if (props.name !== "") inputClass.push("green");
+  else inputClass.push("red");
+  if (props.name.length > 6) inputClass.push("bold");
+
+  return (
+    <div className="Moto">
       <h3>Moto name : {props.name} </h3>
       <p>
-         Model : <strong> {props.model} </strong>
+        Model : <strong> {props.model} </strong>
       </p>
       <p>
-         Year : <strong> {props.year} </strong>
+        Year : <strong> {props.year} </strong>
       </p>
 
-      <input type='text' onChange = {props.onChangeMotoName} value = {props.name}></input>
+      <input
+        className={inputClass.join(" ")}
+        type="text"
+        onChange={props.onChangeName}
+        value={props.name}
+      ></input>
 
       <button onClick={props.onDelete}>Delete</button>
-      </div>
-   );
+    </div>
+  );
 };
 
 export default moto;

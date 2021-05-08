@@ -5,22 +5,51 @@ import Moto from "./Moto/Moto";
 class App extends Component {
   //  компонент App
 
+  //  состояние описывающее компонент
+
   state = {
     motorcycle: [
       { name: "Honda", model: "Transalp", year: 1999 },
       { name: "Yamaha", model: "Fazer600", year: 2006 },
       { name: "BMW", model: "GSA 1200", year: 2020 },
     ],
-    pageTitleChoice: "Your choice is my friend motorcyclist",
-
+    choiceTitlePage: "Your choice is my friend motorcyclist", //  choiceTitlePage отвечает за выбор заголовка
     showMoto: false,
   };
 
-  // pageTitleChoice = (newChoice) => {
+  onChangeName(name, index) {
+    //  console.log(name, index);
+
+    //  создаем клона, чтобы поменять текущее состояние
+
+    const moto = this.state.motorcycle[index]; //  получение элемента
+    moto.name = name;
+    const newMotos = [...this.state.motorcycle];
+    newMotos[index] = moto;
+    this.setState({
+      moto: newMotos,
+    });
+  }
+
+  deleteElement(index) {
+    const moto = [...this.state.motorcycle];
+    moto.splice(index, 1);
+    this.setState({
+      motorcycle: moto,
+    });
+  }
+
+  // сhangeTitlePage = (newTitle) => {  //  сhangeTitlePage - это метод (ref) отвечает за изменение заголовка
+  //    this.setState({       //  этот метод изменяет состояние компонента
+  //       choiceTitlePage: newTitle
+  //    })
+  // }
+
+  // inputChange = (event) => {
   //    this.setState({
-  //    pageTitleChoice: newChoice,
-  //    });
-  // };
+  //       choiceTitlePage: event.target.value
+  //    })
+  // }
 
   showToggle = () => {
     this.setState({
@@ -28,115 +57,36 @@ class App extends Component {
     });
   };
 
-  //   inputChange = (event) => {  //  получение инф из input
-  //      this.setState({
-  //       pageTitleChoice: event.target.value
-  //      })
-  //   }
-
-  onChangeMotoName(name, index) {
-    // console.log(name, index);
-
-    const moto = this.state.motorcycle[index]; //  получаем то, что хотим изменить
-    moto.name = name; //  получили
-    const motos = [...this.state.motorcycle]; //  клонируем массив
-
-    // console.log(motos);
-    motos[index] = moto;
-    this.setState({ motos });
-  }
-
-  onDeleteChange(index) {
-    let mot = this.state.motorcycle.concat();
-    // console.log(motos);
-    mot.splice(index, 1);
-    this.setState({ mot });
-  }
-
   render() {
-    const divStyle = {
-      // backgroundColor: "#4785b8",
-      textAlign: "center",
-      border: "3px solid red",
-    };
-    const hStyle = {
-      color: "black",
-      fontSize: "20px",
-    };
-
     /* ниже конструкци с if без тернарного оператора */
 
-    // let motorcycles = null
-    //  if (this.state.showMoto) {
-    //     motorcycles = this.state.motorcycle.map((elem, index) => {
-    //       return (
-    //          <Moto
-    //          key = {index}
-    //          name = {elem.name}
-    //          model = {elem.model}
-    //          year = {elem.year}
-    //          onChangeMoto = {() => this.pageTitleChoice(elem.name)}
-    //          ></Moto>
-    //       )
-    //    })
-    //  }
+    let motos = null;
+    if (this.state.showMoto) {
+      motos = this.state.motorcycle.map((elem, index) => {
+        return (
+          <Moto
+            key={index}
+            name={elem.name}
+            model={elem.model}
+            year={elem.year}
+            onDelete={this.deleteElement.bind(this, index)}
+            onChangeName={(event) =>
+              this.onChangeName(event.target.value, index)
+            }
+          ></Moto>
+        );
+      });
+    }
 
     return (
-      <div style={divStyle}>
-        <h1 style={hStyle}>{this.state.pageTitleChoice}</h1>
+      <div className="Container">
+        <h1 className="H1">{this.state.choiceTitlePage}</h1>
+        <button onClick={this.showToggle}>Toggle Moto</button>
 
-        {/* <input type='text' onChange = {this.inputChange}></input> */}
-
-        {/* <button onClick={this.pageTitleChoice.bind(this, "Very Good")}>
-            {" "}
-            Your choice{" "}
-         </button> */}
-
-        <button onClick={this.showToggle}> Toggle Moto </button>
-
-        {/* { motorcycles }  Это относится к конструкции с if */}
-
-        {/* ниже конструкция  ? и : (тернарники)*/}
-
-        {this.state.showMoto
-          ? this.state.motorcycle.map((elem, index) => {
-              // после return нельзя писать блок if, else.(только тернарники)!!!
-              return (
-                <Moto
-                  key={index}
-                  name={elem.name}
-                  model={elem.model}
-                  year={elem.year}
-                  onDelete={this.onDeleteChange.bind(this, index)}
-                  onChangeMotoName={(event) =>
-                    this.onChangeMotoName(event.target.value, index)
-                  }
-                ></Moto>
-              );
-            })
-          : null}
-
-        {/* <Moto
-            name={motorcycle[0].name}
-            model={motorcycle[0].model}
-            year={motorcycle[0].year}
-            onChangeMoto={this.pageTitleChoice.bind(this, motorcycle[0].name)} //  метод bind лучше подходит
-         />
-         <Moto
-            name={motorcycle[1].name}
-            model={motorcycle[1].model}
-            year={motorcycle[1].year}
-            onChangeMoto={() => this.pageTitleChoice(motorcycle[1].name)} //  этот метод более нагружен, когда много компонентов в проекте
-         />
-         <Moto
-            name={motorcycle[2].name}
-            model={motorcycle[2].model}
-            year={motorcycle[2].year}
-            onChangeMoto={() => this.pageTitleChoice(motorcycle[2].name)} //  этот метод более нагружен, когда много компонентов в проекте
-         /> */}
+        <div className="Button">{motos}</div>
       </div>
     );
   }
 }
-
 export default App;
+
